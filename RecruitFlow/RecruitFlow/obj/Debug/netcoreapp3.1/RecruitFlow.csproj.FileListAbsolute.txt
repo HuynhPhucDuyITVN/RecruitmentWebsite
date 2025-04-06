@@ -208,3 +208,8 @@ F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\View
 F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\TinTuyenDung\Details.cshtml.g.cs
 F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\TinTuyenDung\Edit.cshtml.g.cs
 F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\TinTuyenDung\Index.cshtml.g.cs
+F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\UngVien\Create.cshtml.g.cs
+F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\UngVien\Delete.cshtml.g.cs
+F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\UngVien\Details.cshtml.g.cs
+F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\UngVien\Edit.cshtml.g.cs
+F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\UngVien\Index.cshtml.g.cs
