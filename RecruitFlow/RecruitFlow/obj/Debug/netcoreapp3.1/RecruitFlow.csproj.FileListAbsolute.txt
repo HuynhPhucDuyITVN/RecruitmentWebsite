@@ -163,8 +163,3 @@ F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\bin\Debug\netcoreapp3.1\ru\Microso
 F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\Cv\Create.cshtml.g.cs
-F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\Cv\Delete.cshtml.g.cs
-F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\Cv\Details.cshtml.g.cs
-F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\Cv\Edit.cshtml.g.cs
-F:\RecruitmentWebsite\RecruitFlow\RecruitFlow\obj\Debug\netcoreapp3.1\Razor\Views\Cv\Index.cshtml.g.cs
