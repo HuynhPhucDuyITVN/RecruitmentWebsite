@@ -1,0 +1,71 @@
+﻿@model IEnumerable<RecruitFlow.Models.LichPhongVan>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ThoiGianPhongVan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HinhThucPhongVan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaDiemPhongVan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NguoiPhongVan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GhiChu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThoiGianTao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DonUngTuyen)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGianPhongVan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HinhThucPhongVan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaDiemPhongVan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NguoiPhongVan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGianTao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DonUngTuyen.DonUngTuyenId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.LichPhongVanId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LichPhongVanId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LichPhongVanId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

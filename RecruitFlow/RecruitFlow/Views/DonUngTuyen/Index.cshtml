@@ -1,0 +1,65 @@
+﻿@model IEnumerable<RecruitFlow.Models.DonUngTuyen>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cvurl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThuXinViec)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThoiGianNop)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TinTuyenDung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UngVien)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cvurl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThuXinViec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGianNop)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TinTuyenDung.TieuDe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UngVien.UngVienId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DonUngTuyenId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DonUngTuyenId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DonUngTuyenId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

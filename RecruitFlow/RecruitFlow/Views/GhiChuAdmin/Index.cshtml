@@ -1,0 +1,59 @@
+﻿@model IEnumerable<RecruitFlow.Models.GhiChuAdmin>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GhiChu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThoiGianTao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NguoiTao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TinTuyenDung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UngVien)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGianTao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NguoiTao.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TinTuyenDung.TieuDe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UngVien.UngVienId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.GhiChuId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.GhiChuId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.GhiChuId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
