@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,7 @@ namespace RecruitFlow.Controllers
         // GET: Cv
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Cv.Include(c => c.UngVien);
+            var applicationDbContext = _context.Cv.Include(c => c.UngVien).ThenInclude(uv =>uv.NguoiDung);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,7 +37,7 @@ namespace RecruitFlow.Controllers
             }
 
             var cv = await _context.Cv
-                .Include(c => c.UngVien)
+                .Include(c => c.UngVien).ThenInclude(uv => uv.NguoiDung)
                 .FirstOrDefaultAsync(m => m.Cvid == id);
             if (cv == null)
             {
@@ -48,7 +50,7 @@ namespace RecruitFlow.Controllers
         // GET: Cv/Create
         public IActionResult Create()
         {
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId");
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(uv => uv.NguoiDung), "UngVienId", "NguoiDung.TenDayDu");
             return View();
         }
 
@@ -57,15 +59,19 @@ namespace RecruitFlow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cvid,UngVienId,TieuDe,FileUrl,ThoiGianTao")] Cv cv)
+        public async Task<IActionResult> Create([Bind("Cvid,UngVienId,TieuDe,FileUrl,ThoiGianTao")] Cv cv, IFormFile file)
         {
             if (ModelState.IsValid)
             {
+                if (file != null)
+                {
+                    cv.FileUrl = Upload(file);
+                }
                 _context.Add(cv);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", cv.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(uv => uv.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", cv.UngVienId);
             return View(cv);
         }
 
@@ -82,7 +88,7 @@ namespace RecruitFlow.Controllers
             {
                 return NotFound();
             }
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", cv.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(uv => uv.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", cv.UngVienId);
             return View(cv);
         }
 
@@ -91,7 +97,7 @@ namespace RecruitFlow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Cvid,UngVienId,TieuDe,FileUrl,ThoiGianTao")] Cv cv)
+        public async Task<IActionResult> Edit(int id, [Bind("Cvid,UngVienId,TieuDe,FileUrl,ThoiGianTao")] Cv cv, IFormFile file)
         {
             if (id != cv.Cvid)
             {
@@ -102,6 +108,12 @@ namespace RecruitFlow.Controllers
             {
                 try
                 {
+                    if (file != null)
+                    {
+                        cv.FileUrl = Upload(file);
+
+                    }
+                    cv.ThoiGianTao = DateTime.Now;
                     _context.Update(cv);
                     await _context.SaveChangesAsync();
                 }
@@ -118,7 +130,7 @@ namespace RecruitFlow.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", cv.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(uv => uv.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", cv.UngVienId);
             return View(cv);
         }
 
@@ -131,7 +143,7 @@ namespace RecruitFlow.Controllers
             }
 
             var cv = await _context.Cv
-                .Include(c => c.UngVien)
+                .Include(c => c.UngVien).ThenInclude(uv => uv.NguoiDung)
                 .FirstOrDefaultAsync(m => m.Cvid == id);
             if (cv == null)
             {
@@ -150,6 +162,26 @@ namespace RecruitFlow.Controllers
             _context.Cv.Remove(cv);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public string Upload(IFormFile file)
+        {
+            string uploadFileName = null;
+            if (file != null)
+            {
+                uploadFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                var folderPath = $"wwwroot\\file\\CV\\";
+                var path = Path.Combine(folderPath, uploadFileName);
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return uploadFileName;
         }
 
         private bool CvExists(int id)

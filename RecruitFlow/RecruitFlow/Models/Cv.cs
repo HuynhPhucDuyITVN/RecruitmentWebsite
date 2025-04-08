@@ -14,19 +14,28 @@ namespace RecruitFlow.Models
     {
         [Key]
         [Column("CVID")]
+        [Display(Name = "Mã số CV")]
         public int Cvid { get; set; }
+        
         [Column("UngVienID")]
+        [Display(Name = "Ứng viên")]
         public int UngVienId { get; set; }
         [StringLength(100)]
+        [Display(Name = "Tiêu đề")]
         public string TieuDe { get; set; }
         [Column("FileURL")]
         [StringLength(255)]
+        [Display(Name = "Đường dẫn chứ File")]
         public string FileUrl { get; set; }
         [Column(TypeName = "datetime")]
+        [Display(Name = "Thời gian lưu")]
         public DateTime? ThoiGianTao { get; set; }
 
         [ForeignKey(nameof(UngVienId))]
         [InverseProperty("Cv")]
+        [Display(Name = "Ứng viên")]
         public virtual UngVien UngVien { get; set; }
+        [NotMapped]
+        public string TenDayDu => UngVien?.NguoiDung?.TenDayDu;
     }
 }
