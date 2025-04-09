@@ -25,7 +25,7 @@ namespace RecruitFlow.Models
         public string TieuDe { get; set; }
         [Column("FileURL")]
         [StringLength(255)]
-        [Display(Name = "Đường dẫn chứ File")]
+        [Display(Name = "Đường dẫn chứa File")]
         public string FileUrl { get; set; }
         [Column(TypeName = "datetime")]
         [Display(Name = "Thời gian lưu")]
@@ -35,7 +35,5 @@ namespace RecruitFlow.Models
         [InverseProperty("Cv")]
         [Display(Name = "Ứng viên")]
         public virtual UngVien UngVien { get; set; }
-        [NotMapped]
-        public string TenDayDu => UngVien?.NguoiDung?.TenDayDu;
     }
 }

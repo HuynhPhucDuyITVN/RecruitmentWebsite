@@ -111,7 +111,6 @@ namespace RecruitFlow.Controllers
                     if (file != null)
                     {
                         cv.FileUrl = Upload(file);
-
                     }
                     cv.ThoiGianTao = DateTime.Now;
                     _context.Update(cv);

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,7 @@ namespace RecruitFlow.Controllers
         // GET: DonUngTuyen
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.DonUngTuyen.Include(d => d.TinTuyenDung).Include(d => d.UngVien);
+            var applicationDbContext = _context.DonUngTuyen.Include(d => d.TinTuyenDung).Include(d => d.UngVien).ThenInclude(nd => nd.NguoiDung);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,7 +38,7 @@ namespace RecruitFlow.Controllers
 
             var donUngTuyen = await _context.DonUngTuyen
                 .Include(d => d.TinTuyenDung)
-                .Include(d => d.UngVien)
+                .Include(d => d.UngVien).ThenInclude(nd => nd.NguoiDung)
                 .FirstOrDefaultAsync(m => m.DonUngTuyenId == id);
             if (donUngTuyen == null)
             {
@@ -50,7 +52,7 @@ namespace RecruitFlow.Controllers
         public IActionResult Create()
         {
             ViewData["TinTuyenDungId"] = new SelectList(_context.TinTuyenDung, "TinTuyenDungId", "TieuDe");
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId");
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(nd => nd.NguoiDung), "UngVienId", "NguoiDung.TenDayDu");
             return View();
         }
 
@@ -59,16 +61,20 @@ namespace RecruitFlow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DonUngTuyenId,TinTuyenDungId,UngVienId,Cvurl,ThuXinViec,ThoiGianNop,TrangThai")] DonUngTuyen donUngTuyen)
+        public async Task<IActionResult> Create([Bind("DonUngTuyenId,TinTuyenDungId,UngVienId,Cvurl,ThuXinViec,ThoiGianNop,TrangThai")] DonUngTuyen donUngTuyen, IFormFile file)
         {
             if (ModelState.IsValid)
             {
+                if (file != null)
+                {
+                    donUngTuyen.Cvurl = Upload(file);
+                }
                 _context.Add(donUngTuyen);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TinTuyenDungId"] = new SelectList(_context.TinTuyenDung, "TinTuyenDungId", "TieuDe", donUngTuyen.TinTuyenDungId);
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", donUngTuyen.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(nd => nd.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", donUngTuyen.UngVienId);
             return View(donUngTuyen);
         }
 
@@ -86,7 +92,15 @@ namespace RecruitFlow.Controllers
                 return NotFound();
             }
             ViewData["TinTuyenDungId"] = new SelectList(_context.TinTuyenDung, "TinTuyenDungId", "TieuDe", donUngTuyen.TinTuyenDungId);
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", donUngTuyen.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(nd => nd.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", donUngTuyen.UngVienId);
+            ViewBag.TrangThaiList = new SelectList(new List<string>
+            {
+                "Đang chờ",
+                "Đã xem",
+                "Phỏng vấn",
+                "Từ chối",
+                "Chấp nhận"
+            });
             return View(donUngTuyen);
         }
 
@@ -95,7 +109,7 @@ namespace RecruitFlow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DonUngTuyenId,TinTuyenDungId,UngVienId,Cvurl,ThuXinViec,ThoiGianNop,TrangThai")] DonUngTuyen donUngTuyen)
+        public async Task<IActionResult> Edit(int id, [Bind("DonUngTuyenId,TinTuyenDungId,UngVienId,Cvurl,ThuXinViec,ThoiGianNop,TrangThai")] DonUngTuyen donUngTuyen, IFormFile file)
         {
             if (id != donUngTuyen.DonUngTuyenId)
             {
@@ -106,6 +120,11 @@ namespace RecruitFlow.Controllers
             {
                 try
                 {
+                    if (file != null)
+                    {
+                        donUngTuyen.Cvurl = Upload(file);
+                    }
+                    donUngTuyen.ThoiGianNop = DateTime.Now;
                     _context.Update(donUngTuyen);
                     await _context.SaveChangesAsync();
                 }
@@ -137,7 +156,7 @@ namespace RecruitFlow.Controllers
 
             var donUngTuyen = await _context.DonUngTuyen
                 .Include(d => d.TinTuyenDung)
-                .Include(d => d.UngVien)
+                .Include(d => d.UngVien).ThenInclude(nd => nd.NguoiDung)
                 .FirstOrDefaultAsync(m => m.DonUngTuyenId == id);
             if (donUngTuyen == null)
             {
@@ -156,6 +175,27 @@ namespace RecruitFlow.Controllers
             _context.DonUngTuyen.Remove(donUngTuyen);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public string Upload(IFormFile file)
+        {
+            string uploadFileName = null;
+            if (file != null)
+            {
+                uploadFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                var folderPath = $"wwwroot\\file\\CVUngTuyen\\";
+                var path = Path.Combine(folderPath, uploadFileName);
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return uploadFileName;
         }
 
         private bool DonUngTuyenExists(int id)

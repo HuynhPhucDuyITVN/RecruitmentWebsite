@@ -38,7 +38,7 @@ CREATE TABLE TinTuyenDung (
     TinTuyenDungID INT IDENTITY(1,1) PRIMARY KEY, -- Ma dinh danh duy nhat cua tin tuyen dung
     TieuDe NVARCHAR(200) NOT NULL, -- Tieu de cong viec
     BoPhan NVARCHAR(100), -- Bo phan tuyen dung
-    LoaiCongViec NVARCHAR(20) CHECK (LoaiCongViec IN ('ToanThoiGian', 'BanThoiGian', 'ThucTap')), -- Loai cong viec: 'ToanThoiGian', 'BanThoiGian', hoac 'ThucTap'
+    LoaiCongViec NVARCHAR(200) CHECK (LoaiCongViec IN (N'Toàn thời gian', N'Bán thời gian', N'Thực tập')), -- Loai cong viec: 'ToanThoiGian', 'BanThoiGian', hoac 'ThucTap'
     LuongTu DECIMAL(10,2), -- Muc luong bat dau cua cong viec
     LuongDen DECIMAL(10,2), -- Muc luong toi da cua cong viec
     DiaDiem NVARCHAR(100), -- Dia diem lam viec
@@ -52,6 +52,7 @@ CREATE TABLE TinTuyenDung (
     ThoiGianTao DATETIME DEFAULT GETDATE() -- Thoi gian tao tin tuyen dung
 );
 
+
 -- ============================================
 -- 4. DON_UNG_TUYEN: Don ung tuyen
 -- ============================================
@@ -62,7 +63,7 @@ CREATE TABLE DonUngTuyen (
     CVURL NVARCHAR(255), -- Lien ket toi CV cua ung vien
     ThuXinViec NVARCHAR(MAX), -- Thu xin viec cua ung vien
     ThoiGianNop DATETIME DEFAULT GETDATE(), -- Thoi gian ung vien nop don
-    TrangThai NVARCHAR(20) CHECK (TrangThai IN ('DangCho', 'DaXem', 'PhongVan', 'TuChoi', 'ChapNhan')) DEFAULT 'DangCho', -- Trang thai cua don ung tuyen
+    TrangThai NVARCHAR(200) CHECK (TrangThai IN (N'Đang chờ', N'Đã xem', N'Phỏng vấn', N'Từ chối', N'Chấp nhận')) DEFAULT N'Đang chờ', -- Trang thai cua don ung tuyen
     FOREIGN KEY (TinTuyenDungID) REFERENCES TinTuyenDung(TinTuyenDungID), -- Lien ket toi bang TinTuyenDung
     FOREIGN KEY (UngVienID) REFERENCES UngVien(UngVienID) -- Lien ket toi bang UngVien
 );

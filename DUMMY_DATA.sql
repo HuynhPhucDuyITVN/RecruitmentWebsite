@@ -24,12 +24,12 @@ INSERT INTO UngVien (NguoiDungID, GioiTinh, NgaySinh, DiaChi, TomTatHoSo) VALUES
 
 -- 3. TinTuyenDung
 INSERT INTO TinTuyenDung (TieuDe, BoPhan, LoaiCongViec, LuongTu, LuongDen, DiaDiem, CapDoKinhNghiem, MoTa, YeuCau, PhucLoi, HanChot, DaCongKhai, ThoiGianCongKhai) VALUES
-(N'Lập trình viên .NET', N'IT', 'ToanThoiGian', 10000000, 20000000, N'Cần Thơ', N'Trên 1 năm', N'Mô tả 1', N'Yêu cầu 1', N'Phúc lợi 1', '2025-04-30', 1, GETDATE()),
-(N'Chuyên viên Marketing', N'Marketing', 'ToanThoiGian', 8000000, 12000000, N'Hà Nội', N'Trên 2 năm', N'Mô tả 2', N'Yêu cầu 2', N'Phúc lợi 2', '2025-05-05', 1, GETDATE()),
-(N'Thực tập sinh IT', N'IT', 'ThucTap', 2000000, 4000000, N'Sài Gòn', N'Mới tốt nghiệp', N'Mô tả 3', N'Yêu cầu 3', N'Phúc lợi 3', '2025-04-28', 1, GETDATE()),
-(N'Nhân viên QA', N'QA', 'ToanThoiGian', 9000000, 15000000, N'Đà Nẵng', N'1-2 năm', N'Mô tả 4', N'Yêu cầu 4', N'Phúc lợi 4', '2025-05-01', 1, GETDATE()),
-(N'HR Executive', N'HR', 'ToanThoiGian', 10000000, 18000000, N'Hồ Chí Minh', N'Trên 3 năm', N'Mô tả 5', N'Yêu cầu 5', N'Phúc lợi 5', '2025-05-10', 1, GETDATE()),
-(N'Thực tập sinh QA', N'QA', 'ThucTap', 3000000, 5000000, N'Cần Thơ', N'Fresher', N'Mô tả 6', N'Yêu cầu 6', N'Phúc lợi 6', '2025-05-15', 1, GETDATE());
+(N'Lập trình viên .NET', N'IT', N'Toàn thời gian', 10000000, 20000000, N'Cần Thơ', N'Trên 1 năm', N'Mô tả 1', N'Yêu cầu 1', N'Phúc lợi 1', '2025-04-30', 1, GETDATE()),
+(N'Chuyên viên Marketing', N'Marketing', N'Toàn thời gian', 8000000, 12000000, N'Hà Nội', N'Trên 2 năm', N'Mô tả 2', N'Yêu cầu 2', N'Phúc lợi 2', '2025-05-05', 1, GETDATE()),
+(N'Thực tập sinh IT', N'IT', N'Thực tập', 2000000, 4000000, N'Sài Gòn', N'Mới tốt nghiệp', N'Mô tả 3', N'Yêu cầu 3', N'Phúc lợi 3', '2025-04-28', 1, GETDATE()),
+(N'Nhân viên QA', N'QA', N'Toàn thời gian', 9000000, 15000000, N'Đà Nẵng', N'1-2 năm', N'Mô tả 4', N'Yêu cầu 4', N'Phúc lợi 4', '2025-05-01', 1, GETDATE()),
+(N'HR Executive', N'HR', N'Toàn thời gian', 10000000, 18000000, N'Hồ Chí Minh', N'Trên 3 năm', N'Mô tả 5', N'Yêu cầu 5', N'Phúc lợi 5', '2025-05-10', 1, GETDATE()),
+(N'Thực tập sinh QA', N'QA', N'Thực tập', 3000000, 5000000, N'Cần Thơ', N'Fresher', N'Mô tả 6', N'Yêu cầu 6', N'Phúc lợi 6', '2025-05-15', 1, GETDATE());
 
 -- 4. NganhNghe
 INSERT INTO NganhNghe (TenNganhNghe) VALUES
@@ -42,12 +42,12 @@ INSERT INTO PhanLoaiNganhNghe (TinTuyenDungID, NganhNgheID) VALUES
 
 -- 6. DonUngTuyen
 INSERT INTO DonUngTuyen (TinTuyenDungID, UngVienID, CVURL, ThuXinViec, TrangThai) VALUES
-(1, 1, 'cv_user1.pdf', N'Xin việc vị trí IT', 'DaXem'),
-(2, 2, 'cv_user2.pdf', N'Tôi tự tin làm Marketing', 'DangCho'),
-(3, 3, 'cv_user3.pdf', N'Muốn học hỏi thực tế', 'PhongVan'),
-(4, 4, 'cv_user4.pdf', N'Đã có kinh nghiệm QA', 'ChapNhan'),
-(5, 5, 'cv_user5.pdf', N'Tôi đam mê ngành HR', 'TuChoi'),
-(6, 6, 'cv_user6.pdf', N'Muốn thử sức với QA', 'DangCho');
+(1, 1, 'cv_user1.pdf', N'Xin việc vị trí IT', N'Đã xem'),
+(2, 2, 'cv_user2.pdf', N'Tôi tự tin làm Marketing', N'Đang chờ'),
+(3, 3, 'cv_user3.pdf', N'Muốn học hỏi thực tế', N'Phỏng vấn'),
+(4, 4, 'cv_user4.pdf', N'Đã có kinh nghiệm QA', N'Chấp nhận'),
+(5, 5, 'cv_user5.pdf', N'Tôi đam mê ngành HR', N'Từ chối'),
+(6, 6, 'cv_user6.pdf', N'Muốn thử sức với QA', N'Đang chờ');
 
 -- 7. CV
 INSERT INTO CV (UngVienID, TieuDe, FileURL) VALUES
