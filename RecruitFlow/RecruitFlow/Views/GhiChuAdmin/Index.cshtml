@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Thông tin ghi chú</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Thêm ghi chú</a>
 </p>
 <table class="table">
     <thead>
@@ -40,18 +40,18 @@
                 @Html.DisplayFor(modelItem => item.ThoiGianTao)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NguoiTao.Email)
+                @Html.DisplayFor(modelItem => item.NguoiTao.TenDayDu)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TinTuyenDung.TieuDe)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UngVien.UngVienId)
+                @Html.DisplayFor(modelItem => item.UngVien.NguoiDung.TenDayDu)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.GhiChuId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GhiChuId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GhiChuId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.GhiChuId">Cập nhật</a> |
+                <a asp-action="Details" asp-route-id="@item.GhiChuId">Chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.GhiChuId">xóa</a>
             </td>
         </tr>
 }

@@ -22,7 +22,7 @@ namespace RecruitFlow.Controllers
         // GET: GhiChuAdmin
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.GhiChuAdmin.Include(g => g.NguoiTao).Include(g => g.TinTuyenDung).Include(g => g.UngVien);
+            var applicationDbContext = _context.GhiChuAdmin.Include(g => g.NguoiTao).Include(g => g.TinTuyenDung).Include(g => g.UngVien).ThenInclude(nd => nd.NguoiDung);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,7 +37,7 @@ namespace RecruitFlow.Controllers
             var ghiChuAdmin = await _context.GhiChuAdmin
                 .Include(g => g.NguoiTao)
                 .Include(g => g.TinTuyenDung)
-                .Include(g => g.UngVien)
+                .Include(g => g.UngVien).ThenInclude(nd => nd.NguoiDung)
                 .FirstOrDefaultAsync(m => m.GhiChuId == id);
             if (ghiChuAdmin == null)
             {
@@ -50,9 +50,9 @@ namespace RecruitFlow.Controllers
         // GET: GhiChuAdmin/Create
         public IActionResult Create()
         {
-            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung, "NguoiDungId", "Email");
+            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung.Where(nd => nd.VaiTro == "Admin"), "NguoiDungId", "TenDayDu");
             ViewData["TinTuyenDungId"] = new SelectList(_context.TinTuyenDung, "TinTuyenDungId", "TieuDe");
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId");
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(nd =>nd.NguoiDung), "UngVienId", "NguoiDung.TenDayDu");
             return View();
         }
 
@@ -69,9 +69,9 @@ namespace RecruitFlow.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung, "NguoiDungId", "Email", ghiChuAdmin.NguoiTaoId);
+            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung.Where(nd => nd.VaiTro == "Admin"), "NguoiDungId", "TenDayDu", ghiChuAdmin.NguoiTaoId);
             ViewData["TinTuyenDungId"] = new SelectList(_context.TinTuyenDung, "TinTuyenDungId", "TieuDe", ghiChuAdmin.TinTuyenDungId);
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", ghiChuAdmin.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(nd => nd.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", ghiChuAdmin.UngVienId);
             return View(ghiChuAdmin);
         }
 
@@ -88,9 +88,9 @@ namespace RecruitFlow.Controllers
             {
                 return NotFound();
             }
-            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung, "NguoiDungId", "Email", ghiChuAdmin.NguoiTaoId);
+            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung.Where(nd => nd.VaiTro == "Admin"), "NguoiDungId", "TenDayDu", ghiChuAdmin.NguoiTaoId);
             ViewData["TinTuyenDungId"] = new SelectList(_context.TinTuyenDung, "TinTuyenDungId", "TieuDe", ghiChuAdmin.TinTuyenDungId);
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", ghiChuAdmin.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(nd => nd.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", ghiChuAdmin.UngVienId);
             return View(ghiChuAdmin);
         }
 
@@ -110,6 +110,7 @@ namespace RecruitFlow.Controllers
             {
                 try
                 {
+                    ghiChuAdmin.ThoiGianTao = DateTime.Now;
                     _context.Update(ghiChuAdmin);
                     await _context.SaveChangesAsync();
                 }
@@ -126,9 +127,9 @@ namespace RecruitFlow.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung, "NguoiDungId", "Email", ghiChuAdmin.NguoiTaoId);
+            ViewData["NguoiTaoId"] = new SelectList(_context.NguoiDung.Where(nd => nd.VaiTro == "Admin"), "NguoiDungId", "TenDayDu", ghiChuAdmin.NguoiTaoId);
             ViewData["TinTuyenDungId"] = new SelectList(_context.TinTuyenDung, "TinTuyenDungId", "TieuDe", ghiChuAdmin.TinTuyenDungId);
-            ViewData["UngVienId"] = new SelectList(_context.UngVien, "UngVienId", "UngVienId", ghiChuAdmin.UngVienId);
+            ViewData["UngVienId"] = new SelectList(_context.UngVien.Include(nd => nd.NguoiDung), "UngVienId", "NguoiDung.TenDayDu", ghiChuAdmin.UngVienId);
             return View(ghiChuAdmin);
         }
 
@@ -144,6 +145,7 @@ namespace RecruitFlow.Controllers
                 .Include(g => g.NguoiTao)
                 .Include(g => g.TinTuyenDung)
                 .Include(g => g.UngVien)
+                .ThenInclude(nd => nd.NguoiDung)
                 .FirstOrDefaultAsync(m => m.GhiChuId == id);
             if (ghiChuAdmin == null)
             {

@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Chi tiết</h1>
 
 <div>
-    <h4>GhiChuAdmin</h4>
+    <h4>Thông tin ghi chú</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -26,7 +26,7 @@
             @Html.DisplayNameFor(model => model.NguoiTao)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NguoiTao.Email)
+            @Html.DisplayFor(model => model.NguoiTao.TenDayDu)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TinTuyenDung)
@@ -38,11 +38,11 @@
             @Html.DisplayNameFor(model => model.UngVien)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UngVien.UngVienId)
+            @Html.DisplayFor(model => model.UngVien.NguoiDung.TenDayDu)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.GhiChuId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.GhiChuId">Cập nhật</a> |
+    <a asp-action="Index">Quay về</a>
 </div>
